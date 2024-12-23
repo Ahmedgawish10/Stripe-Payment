@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 require("dotenv").config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 app.use(express.json());
@@ -68,9 +68,9 @@ app.get("/session/:sessionId", async (req, res) => {
       return res.status(404).send({ error: "Session not found" });
     }
 
-    res.status(200).send(session);
+    res.status(200).send( session);
   } catch (error) {
-    console.error("Error fetching session:", error);
+    console.error("Error fetching session:", error,process.env.STRIPE_SECRET_KEY);
     res.status(500).send({ error: error.message });
   }
 });
