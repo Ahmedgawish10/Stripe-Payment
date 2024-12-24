@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")("sk_test_51P85jmLPTeuzPbczbWIjE4PIvfNMg12md2wXQUsdgkJouBkciMTn6HCON9apASZ34BgnEXw8GE7bp48PNxekvjdo00oWx0a3kO");
 
 const app = express();
 app.use(express.json());
@@ -32,7 +32,6 @@ app.post("/create-checkout-session", async (req, res) => {
     if (isNaN(amount) || amount <= 0) {
       return res.status(400).send({ error: "Amount must be a positive number." });
     }
-
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -48,7 +47,7 @@ app.post("/create-checkout-session", async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `${successUrl}?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${successUrl}?session_id={CHECKOUT_SESSION_ID}OFTYU`,
       cancel_url: cancelUrl,
     });
 
@@ -68,9 +67,9 @@ app.get("/session/:sessionId", async (req, res) => {
       return res.status(404).send({ error: "Session not found" });
     }
 
-    res.status(200).send( session);
+    res.status(200).send(session);
   } catch (error) {
-    console.error("Error fetching session:", error,process.env.STRIPE_SECRET_KEY);
+    console.error("Error fetching session:", );
     res.status(500).send({ error: error.message });
   }
 });
